@@ -1,14 +1,14 @@
 import express from 'express';
-import cors from 'cors';
 import morgan from 'morgan';
 import { config } from 'dotenv';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import mongoose from 'mongoose';
+import passport from 'passport';
 import jsonReplacer from './util/json-replacer';
 import db from './util/db';
 import authRouter from './routes/auth';
-import passport from 'passport';
+import apiRouter from './routes/api';
 
 config();
 
@@ -26,7 +26,6 @@ app.set('json replacer', jsonReplacer);
 	console.log('Mongo client connected');
 
 	// Middleware
-	app.use(cors());
 	app.use(morgan('dev'));
 	app.use(express.json());
 	app.use(
@@ -46,6 +45,7 @@ app.set('json replacer', jsonReplacer);
 
 	// Routes
 	app.use('/auth', authRouter);
+	app.use('/api', apiRouter);
 
 	app.listen(PORT, () => console.log(`App listening on port ${PORT}...`));
 })();

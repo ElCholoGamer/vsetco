@@ -12,7 +12,8 @@
 		"lib": ["ES2019"],
 		"skipLibCheck": true,
 		"moduleResolution": "Node",
-		"forceConsistentCasingInFileNames": true
+		"forceConsistentCasingInFileNames": true,
+		"outDir": "dist"
 	},
 	"include": ["src/**/*.ts"],
 	"exclude": ["node_modules"],

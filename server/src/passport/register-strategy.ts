@@ -1,9 +1,11 @@
 import { hash } from 'bcrypt';
 import { Strategy as LocalStrategy } from 'passport-local';
+import * as countryCodes from 'country-codes-list';
 import User from '../models/user';
 
-// This regex isnt mine btw
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$/;
+
+const validCountries = countryCodes.all().map(data => data.countryCode);
 
 const registerStrategy = new LocalStrategy(
 	{
@@ -12,13 +14,24 @@ const registerStrategy = new LocalStrategy(
 		passReqToCallback: true,
 	},
 	async (req, username, password, done) => {
+		let { email, country } = req.body;
+
 		username = username.trim();
-		const email: string = req.body.email.toLowerCase().trim();
+		country = country.toUpperCase();
+		email = email.toLowerCase().trim();
+
+		// Validate country
+		if (!validCountries.includes(country)) {
+			return done(null, false, {
+				message: 'Invalid country code provided',
+				status: 400,
+			});
+		}
 
 		// Validate email
 		if (!EMAIL_REGEX.test(email)) {
 			return done(null, false, {
-				message: 'The provided email is invalid',
+				message: 'Invalid email provded',
 				status: 400,
 			});
 		}
@@ -60,6 +73,7 @@ const registerStrategy = new LocalStrategy(
 		// Create user document
 		password = await hash(password, 10);
 		const user = new User({
+			country,
 			email,
 			username,
 			password,
