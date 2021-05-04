@@ -1,5 +1,5 @@
 {
-	"name": "client",
+	"name": "vsetko-client",
 	"private": true,
 	"scripts": {
 		"start": "react-scripts start",
