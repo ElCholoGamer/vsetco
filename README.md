@@ -4,4 +4,4 @@
 
 Una app de anuncios para un proyecto escolar.<br/>
 ~<br/>
-An advertisements app for a school proyect.
+An advertisements app for a school project.
