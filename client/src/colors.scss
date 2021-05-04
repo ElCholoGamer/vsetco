@@ -1,0 +1,11 @@
+$primary: #f1c98d;
+$secondary: #dba759;
+
+$theme-colors: (
+	'primary': $primary,
+	'secondary': $secondary,
+);
+
+$body-bg: $primary;
+
+@import 'bootstrap';
