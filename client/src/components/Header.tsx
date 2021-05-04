@@ -2,20 +2,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
-import Logo from '../../assets/img/logo.svg';
+import Logo from '@assets/img/logo.svg';
 
 const Header: React.FC = () => {
 	return (
 		<Navbar bg="secondary">
 			<Navbar.Brand as={Link} to="/">
-				{/* eslint-disable-next-line jsx-a11y/alt-text */}
-				<img
-					src={Logo}
-					style={{
-						height: '35px',
-					}}
-				/>{' '}
-				Vsetko
+				<img src={Logo} alt="Logo" height={30} /> Vsetko
 			</Navbar.Brand>
 			<Navbar.Collapse className="justify-content-end">
 				<ButtonGroup>
