@@ -5,7 +5,8 @@
 			"@scss/*": ["src/scss/*"],
 			"@assets/*": ["src/assets/*"],
 			"@components/*": ["src/components/*"],
-			"@pages/*": ["src/pages/*"]
+			"@pages/*": ["src/pages/*"],
+			"@structures/*": ["src/structures/*"]
 		}
 	}
 }
