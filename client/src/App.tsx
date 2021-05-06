@@ -2,13 +2,16 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 import Header from '@components/Header';
-import User from './structures/user';
+import User from '@structures/user';
+import NotFoundPage from '@pages/NotFound';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@scss/App.scss';
 
-const Home = lazy(() => import('@pages/Home'));
-const Login = lazy(() => import('@pages/Login'));
-const Register = lazy(() => import('@pages/Register'));
+const HomePage = lazy(() => import('@pages/HomePage'));
+const LoginPage = lazy(() => import('@pages/LoginPage'));
+const RegisterPage = lazy(() => import('@pages/RegisterPage'));
+const UserPage = lazy(() => import('@pages/UserPage'));
+const CreatePostPage = lazy(() => import('@pages/CreatePostPage'));
 
 const App: React.FC = () => {
 	const [loaded, setLoaded] = useState(false);
@@ -41,9 +44,21 @@ const App: React.FC = () => {
 			<Header user={user} setLoaded={setLoaded} />
 			<Suspense fallback={null}>
 				<Switch>
-					<Route exact path="/" component={Home} />
-					<Route exact path="/login" component={Login} />
-					<Route exact path="/register" component={Register} />
+					<Route exact path="/" component={HomePage} />
+					<Route exact path="/login" render={() => <LoginPage user={user} />} />
+					<Route
+						exact
+						path="/register"
+						render={() => <RegisterPage user={user} />}
+					/>
+					<Route exact path="/user/:id" component={UserPage} />
+					<Route
+						exact
+						path="/post"
+						render={() => <CreatePostPage user={user} />}
+					/>
+
+					<Route exact path="/*" component={NotFoundPage} />
 				</Switch>
 			</Suspense>
 		</>

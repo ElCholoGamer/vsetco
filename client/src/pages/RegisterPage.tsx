@@ -5,7 +5,8 @@ import Button from 'react-bootstrap/Button';
 import React, { ChangeEvent, MouseEvent, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customList } from 'country-codes-list';
-import User from 'src/structures/user';
+import User from '@structures/user';
+import { Redirect } from 'react-router';
 
 interface Props {
 	user: User | null;
@@ -13,7 +14,7 @@ interface Props {
 
 const countries = customList('countryCode', '{countryNameEn}');
 
-const Register: React.FC<Props> = ({ user }) => {
+const RegisterPage: React.FC<Props> = ({ user }) => {
 	const [alert, setAlert] = useState<string | null>(null);
 	const [input, setInput] = useState({
 		email: '',
@@ -71,6 +72,8 @@ const Register: React.FC<Props> = ({ user }) => {
 				btn.disabled = false;
 			});
 	};
+
+	if (user) return <Redirect to="/" />;
 
 	return (
 		<Layout>
@@ -154,4 +157,4 @@ const Register: React.FC<Props> = ({ user }) => {
 	);
 };
 
-export default Register;
+export default RegisterPage;

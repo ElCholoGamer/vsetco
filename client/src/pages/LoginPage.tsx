@@ -4,14 +4,14 @@ import axios, { AxiosError } from 'axios';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
-import User from 'src/structures/user';
+import User from '@structures/user';
 import { Redirect } from 'react-router';
 
 interface Props {
 	user: User | null;
 }
 
-const Login: React.FC<Props> = ({ user }) => {
+const LoginPage: React.FC<Props> = ({ user }) => {
 	const [alert, setAlert] = useState<string | null>(null);
 	const [input, setInput] = useState({
 		username: '',
@@ -96,4 +96,4 @@ const Login: React.FC<Props> = ({ user }) => {
 	);
 };
 
-export default Login;
+export default LoginPage;

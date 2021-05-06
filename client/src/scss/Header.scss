@@ -1,3 +1,12 @@
-.profile-picture {
-	border-radius: 50%;
+.header-profile {
+	color: inherit;
+
+	&:hover {
+		color: inherit;
+		text-decoration: none;
+	}
+}
+
+.post-btn {
+	padding: 2px 3px !important;
 }
