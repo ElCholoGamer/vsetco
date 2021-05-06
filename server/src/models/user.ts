@@ -28,6 +28,7 @@ export interface IUser extends Document {
 
 const UserSchema = new Schema(
 	{
+		_id: String,
 		email: { type: String, trim: true },
 		username: { type: String, trim: true, minLength: 2 },
 		password: { type: String, required: true },
@@ -37,6 +38,21 @@ const UserSchema = new Schema(
 	},
 	{ timestamps: true }
 );
+
+UserSchema.pre('save', async function (done) {
+	if (this._id) return done();
+
+	let id;
+	do {
+		const length = 12;
+		const num = Math.floor(Math.random() * 10 ** length);
+
+		id = num.toString().padStart(length, '0');
+	} while (await (this.constructor as any).findById(id));
+
+	this._id = id;
+	done();
+});
 
 const User = model<IUser>('User', UserSchema);
 

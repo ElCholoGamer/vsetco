@@ -4,9 +4,7 @@ import User from '../../models/user';
 
 const router = Router();
 
-router.use(authenticate());
-
-router.get('/@me', (req, res) => res.json(req.user));
+router.get('/@me', authenticate(), (req, res) => res.json(req.user));
 
 router.get('/:id', async (req, res) => {
 	const user = await User.findById(req.params.id);
