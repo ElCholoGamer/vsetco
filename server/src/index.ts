@@ -9,6 +9,7 @@ import jsonReplacer from './util/json-replacer';
 import db from './util/db';
 import authRouter from './routes/auth';
 import apiRouter from './routes/api';
+import initPassport from './passport';
 
 config();
 
@@ -16,6 +17,7 @@ const { MONGO_URI, PORT = 8080 } = process.env;
 if (!MONGO_URI) throw new Error('MongoDB URI missing');
 
 const app = express();
+initPassport();
 
 // Options
 app.enable('trust proxy');

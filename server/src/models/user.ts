@@ -8,15 +8,16 @@ export interface IContacts {
 
 export const ContactsSchema = new Schema(
 	{
-		phone: { type: String, required: true, trim: true },
-		email: { type: String, required: true, trim: true },
-		address: { type: String, required: true },
+		phone: { type: String, trim: true },
+		email: { type: String, trim: true },
+		address: { type: String, trim: true },
 	},
 	{ _id: false }
 );
 
 export interface IUser extends Document {
 	_id: string;
+	email: string;
 	username: string;
 	password: string;
 	contacts: IContacts;

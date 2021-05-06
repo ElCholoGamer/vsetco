@@ -22,5 +22,5 @@ declare module 'passport-local' {
 }
 
 declare module 'country-codes-list' {
-	export function all(): { countryCode: string }[];
+	declare function all(): { countryCode: string }[];
 }

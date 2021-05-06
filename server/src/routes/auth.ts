@@ -17,7 +17,7 @@ const authCallback = (req: Request, res: Response) => (
 
 	if (!user) {
 		return res.status(401).json({
-			status: 401,
+			status: info?.status || 401,
 			message: info?.message || '[No message provided]',
 		});
 	}
@@ -32,12 +32,16 @@ const authCallback = (req: Request, res: Response) => (
 	});
 };
 
-router.post('/register', (req, res) => {
-	passport.authenticate('local-register', authCallback(req, res))(req, res);
+router.post('/register', (req, res, next) => {
+	passport.authenticate('local-register', authCallback(req, res))(
+		req,
+		res,
+		next
+	);
 });
 
-router.post('/login', (req, res) => {
-	passport.authenticate('local-login', authCallback(req, res))(req, res);
+router.post('/login', (req, res, next) => {
+	passport.authenticate('local-login', authCallback(req, res))(req, res, next);
 });
 
 // Log out user session

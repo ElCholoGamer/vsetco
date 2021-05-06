@@ -17,13 +17,12 @@ const registerStrategy = new LocalStrategy(
 		let { email, country } = req.body;
 
 		username = username.trim();
-		country = country.toUpperCase();
 		email = email.toLowerCase().trim();
 
 		// Validate country
 		if (!validCountries.includes(country)) {
 			return done(null, false, {
-				message: 'Invalid country code provided',
+				message: 'El país es inválido',
 				status: 400,
 			});
 		}
@@ -31,7 +30,7 @@ const registerStrategy = new LocalStrategy(
 		// Validate email
 		if (!EMAIL_REGEX.test(email)) {
 			return done(null, false, {
-				message: 'Invalid email provded',
+				message: 'El correo electrónico es inválido',
 				status: 400,
 			});
 		}
@@ -40,7 +39,7 @@ const registerStrategy = new LocalStrategy(
 		let existing = await User.findOne({ email });
 		if (existing) {
 			return done(null, false, {
-				message: 'Email is already registered',
+				message: 'El correo electrónico ya está en uso',
 				status: 400,
 			});
 		}
@@ -49,7 +48,7 @@ const registerStrategy = new LocalStrategy(
 		existing = await User.findOne({ username });
 		if (existing) {
 			return done(null, false, {
-				message: 'Username is already in use',
+				message: 'El nombre de usuario ya está en uso',
 				status: 400,
 			});
 		}
@@ -57,7 +56,7 @@ const registerStrategy = new LocalStrategy(
 		// Validate username
 		if (username.length > 20) {
 			return done(null, false, {
-				message: 'Username is too long',
+				message: 'El nombre de usuario es demasiado largo',
 				status: 400,
 			});
 		}
@@ -65,7 +64,7 @@ const registerStrategy = new LocalStrategy(
 		// Validate password
 		if (password.length < 4) {
 			return done(null, false, {
-				message: 'Password must have a minimum of 4 characters',
+				message: 'La contraseña debe tener un mínimo de 4 caracteres',
 				status: 400,
 			});
 		}
