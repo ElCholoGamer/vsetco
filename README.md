@@ -8,7 +8,10 @@ An advertisements app for a school project.
 
 ## Todo:
 
-- Homepage posts
-- Custom login redirect with query params
-- Individual post page
-- Put actual effort into the CSS
+- [ ] Homepage posts (Kinda done)
+- [x] Custom login redirect with query params
+- [x] `/account` path that shows user info
+- [x] Account bio/description
+- [ ] Posts search bar
+- [ ] Individual post page
+- [ ] Put actual effort into the CSS
