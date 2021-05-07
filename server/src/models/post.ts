@@ -7,7 +7,6 @@ export interface IPost extends Document {
 	author: string;
 	category: string;
 	description: string;
-	country?: string;
 	contacts: IContacts;
 	upvotes: string[];
 	downvotes: string[];
@@ -21,9 +20,8 @@ const PostSchema = new Schema(
 	{
 		title: { type: String, trim: true, required: true },
 		author: { type: String, required: true },
-		category: { type: String, trim: true, required: true },
+		category: { type: String, trim: true },
 		description: { type: String, trim: true, required: true },
-		country: { type: String, trim: true },
 		contacts: { type: ContactsSchema, required: true },
 		upvotes: { type: [String], required: true },
 		downvotes: { type: [String], required: true },

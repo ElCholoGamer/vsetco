@@ -2,6 +2,7 @@ import { Router } from 'express';
 import authenticate from '../../middleware/authenticate';
 import Post from '../../models/post';
 import sortFunctions from '../../util/post-sorters';
+import validateEmail from '../../util/validate-email';
 
 const router = Router();
 
@@ -17,6 +18,13 @@ router.get('/', async (req, res) => {
 
 router.post('/', authenticate(), async (req, res) => {
 	const { title, description, contacts } = req.body;
+
+	if (contacts.email && !validateEmail(contacts.email)) {
+		return res.status(400).json({
+			status: 400,
+			message: 'El correo electrónico es inválido',
+		});
+	}
 
 	const post = new Post({
 		title,

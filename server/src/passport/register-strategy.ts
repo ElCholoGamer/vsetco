@@ -2,8 +2,7 @@ import { hash } from 'bcrypt';
 import { Strategy as LocalStrategy } from 'passport-local';
 import * as countryCodes from 'country-codes-list';
 import User from '../models/user';
-
-const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*$/;
+import validateEmail from '../util/validate-email';
 
 const validCountries = countryCodes.all().map(data => data.countryCode);
 
@@ -28,7 +27,7 @@ const registerStrategy = new LocalStrategy(
 		}
 
 		// Validate email
-		if (!EMAIL_REGEX.test(email)) {
+		if (!validateEmail(email)) {
 			return done(null, false, {
 				message: 'El correo electrónico es inválido',
 				status: 400,
