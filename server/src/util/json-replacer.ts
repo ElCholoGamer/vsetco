@@ -19,7 +19,6 @@ function jsonReplacer(key: string, value: unknown) {
 		}
 
 		// Trasnform vote ID lists to vote number
-
 		if ('upvotes' in value && 'downvotes' in value) {
 			const objectWithVotes = value as ObjectWithVotes;
 

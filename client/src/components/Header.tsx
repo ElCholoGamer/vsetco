@@ -1,5 +1,3 @@
-import { Dispatch, MouseEvent, SetStateAction } from 'react';
-import axios from 'axios';
 import Navbar from 'react-bootstrap/Navbar';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
@@ -12,27 +10,10 @@ import CreatePostIcon from '@assets/img/create_post_icon.svg';
 import '@scss/Header.scss';
 
 interface Props {
-	setLoaded: Dispatch<SetStateAction<boolean>>;
 	user: User | null;
 }
 
-const Header: React.FC<Props> = ({ user, setLoaded }) => {
-	const logOut = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
-		const btn = e.currentTarget;
-		btn.disabled = true;
-
-		axios
-			.post('/auth/logout')
-			.then(() => {
-				localStorage.removeItem('logged_in');
-				window.location.reload();
-			})
-			.catch(err => {
-				console.error(err);
-				btn.disabled = false;
-			});
-	};
-
+const Header: React.FC<Props> = ({ user }) => {
 	const profilePicProps = {
 		className: 'mx-2 rounded-circle',
 		width: 40,
@@ -50,7 +31,7 @@ const Header: React.FC<Props> = ({ user, setLoaded }) => {
 				{user ? (
 					<>
 						<Button
-							className="post-btn d-flex align-items-center justify-content-middle mx-2"
+							className="post-btn d-flex align-items-center justify-content-middle mx-3"
 							variant="secondary"
 							as={Link}
 							to="/post">
@@ -70,9 +51,6 @@ const Header: React.FC<Props> = ({ user, setLoaded }) => {
 								}
 							/>
 						</Link>
-						<Button variant="outline-danger" onClick={logOut}>
-							Cerrar Sesión
-						</Button>
 					</>
 				) : (
 					<ButtonGroup>

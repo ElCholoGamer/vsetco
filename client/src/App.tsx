@@ -41,11 +41,11 @@ const App: React.FC = () => {
 
 	return (
 		<>
-			<Header user={user} setLoaded={setLoaded} />
+			<Header user={user} />
 			<Suspense fallback={null}>
-				{user && (
+				{loaded && (
 					<Switch>
-						<Route exact path="/" component={HomePage} />
+						<Route exact path="/" render={() => <HomePage user={user} />} />
 						<Route
 							exact
 							path="/login"
