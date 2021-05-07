@@ -1,8 +1,8 @@
 interface User {
 	id: string;
+	email: string;
 	username: string;
 	contacts: {
-		email?: string;
 		phone?: string;
 		address?: string;
 	};

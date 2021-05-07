@@ -43,23 +43,29 @@ const App: React.FC = () => {
 		<>
 			<Header user={user} setLoaded={setLoaded} />
 			<Suspense fallback={null}>
-				<Switch>
-					<Route exact path="/" component={HomePage} />
-					<Route exact path="/login" render={() => <LoginPage user={user} />} />
-					<Route
-						exact
-						path="/register"
-						render={() => <RegisterPage user={user} />}
-					/>
-					<Route exact path="/user/:id" component={UserPage} />
-					<Route
-						exact
-						path="/post"
-						render={() => <CreatePostPage user={user} />}
-					/>
+				{user && (
+					<Switch>
+						<Route exact path="/" component={HomePage} />
+						<Route
+							exact
+							path="/login"
+							render={() => <LoginPage user={user} />}
+						/>
+						<Route
+							exact
+							path="/register"
+							render={() => <RegisterPage user={user} />}
+						/>
+						<Route exact path="/user/:id" component={UserPage} />
+						<Route
+							exact
+							path="/post"
+							render={() => <CreatePostPage user={user} />}
+						/>
 
-					<Route exact path="/*" component={NotFoundPage} />
-				</Switch>
+						<Route exact path="/*" component={NotFoundPage} />
+					</Switch>
+				)}
 			</Suspense>
 		</>
 	);
