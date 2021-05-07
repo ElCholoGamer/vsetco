@@ -90,9 +90,7 @@ const CreatePostPage: React.FC<Props> = ({ user }) => {
 			});
 	};
 
-	if (!user) {
-		return <Redirect to="/" />;
-	}
+	if (!user) return <Redirect to={`/login?r=${encodeURIComponent('/post')}`} />;
 
 	return (
 		<Layout>

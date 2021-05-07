@@ -6,12 +6,14 @@ import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import User from '@structures/user';
 import { Redirect } from 'react-router';
+import { useQuery } from '../utils';
 
 interface Props {
 	user: User | null;
 }
 
 const LoginPage: React.FC<Props> = ({ user }) => {
+	const redirect = useQuery().get('r') || '/';
 	const [alert, setAlert] = useState<string | null>(null);
 	const [input, setInput] = useState({
 		username: '',
@@ -39,7 +41,7 @@ const LoginPage: React.FC<Props> = ({ user }) => {
 			.post('/auth/login', { username, password })
 			.then(() => {
 				localStorage.setItem('logged_in', '1');
-				window.location.href = '/';
+				window.location.href = redirect;
 			})
 			.catch((err: AxiosError) => {
 				setAlert(
@@ -50,7 +52,7 @@ const LoginPage: React.FC<Props> = ({ user }) => {
 			});
 	};
 
-	if (user) return <Redirect to="/" />;
+	if (user) return <Redirect to={redirect} />;
 
 	return (
 		<Layout>

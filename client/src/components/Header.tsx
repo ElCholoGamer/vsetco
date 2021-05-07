@@ -37,7 +37,7 @@ const Header: React.FC<Props> = ({ user }) => {
 							to="/post">
 							<img height="20" src={CreatePostIcon} alt="Create Post" />
 						</Button>
-						<Link to={`/user/${user.id}`} className="header-profile">
+						<Link to={`/account`} className="header-profile">
 							{user.username}
 							<LazyImage
 								src="/api/users/@me/picture"

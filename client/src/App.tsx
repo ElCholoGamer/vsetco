@@ -46,6 +46,7 @@ const App: React.FC = () => {
 				{loaded && (
 					<Switch>
 						<Route exact path="/" render={() => <HomePage user={user} />} />
+
 						<Route
 							exact
 							path="/login"
@@ -56,7 +57,17 @@ const App: React.FC = () => {
 							path="/register"
 							render={() => <RegisterPage user={user} />}
 						/>
-						<Route exact path="/user/:id" component={UserPage} />
+
+						<Route
+							exact
+							path="/account"
+							render={() => <UserPage user={user} />}
+						/>
+						<Route
+							exact
+							path="/user/:id"
+							render={() => <UserPage user={user} />}
+						/>
 						<Route
 							exact
 							path="/post"

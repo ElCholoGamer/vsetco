@@ -1,5 +1,5 @@
 import { useEffect, useState, MouseEvent } from 'react';
-import { useParams } from 'react-router';
+import { Redirect, useParams } from 'react-router';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { customList } from 'country-codes-list';
@@ -9,18 +9,29 @@ import User from '@structures/user';
 
 const countries = customList('countryCode', '{countryNameEn}');
 
-const UserPage: React.FC = () => {
-	const { id } = useParams<{ id: string }>();
+interface Props {
+	user: User | null;
+}
+
+const UserPage: React.FC<Props> = ({ user: self }) => {
+	const { id } = useParams<{ id?: string }>();
 	const [loaded, setLoaded] = useState(false);
 	const [user, setUser] = useState<User | null>(null);
 
 	useEffect(() => {
+		const finalId = id || self?.id;
+		if (!finalId) return;
+
 		axios
-			.get(`/api/users/${id}`)
+			.get(`/api/users/${finalId}`)
 			.then(res => setUser(res.data))
 			.catch(console.error)
 			.finally(() => setLoaded(true));
-	}, [id]);
+	}, [id, self]);
+
+	if (!id && !self) {
+		return <Redirect to={`/login?r=${encodeURIComponent('/account')}`} />;
+	}
 
 	const logOut = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
 		const btn = e.currentTarget;
@@ -30,7 +41,7 @@ const UserPage: React.FC = () => {
 			.post('/auth/logout')
 			.then(() => {
 				localStorage.removeItem('logged_in');
-				window.location.reload();
+				window.location.href = '/';
 			})
 			.catch(err => {
 				console.error(err);
@@ -56,9 +67,11 @@ const UserPage: React.FC = () => {
 					</p>
 					<hr />
 
-					<Button variant="outline-danger" onClick={logOut}>
-						Cerrar Sesión
-					</Button>
+					{user.id === self?.id && (
+						<Button variant="outline-danger" onClick={logOut}>
+							Cerrar Sesión
+						</Button>
+					)}
 				</>
 			)}
 		</Layout>
