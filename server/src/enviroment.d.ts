@@ -3,9 +3,9 @@ import { IPost } from './models/post';
 
 declare global {
 	namespace Express {
-		export interface User extends IUser {}
+		interface User extends IUser {}
 
-		export interface Request {
+		interface Request {
 			channel: IChannel;
 			message: IMessage;
 			wss: WSServer;
@@ -13,14 +13,4 @@ declare global {
 			post: IPost;
 		}
 	}
-}
-
-declare module 'passport-local' {
-	export interface IVerifyOptions {
-		status: number;
-	}
-}
-
-declare module 'country-codes-list' {
-	declare function all(): { countryCode: string }[];
 }
