@@ -9,8 +9,10 @@ import jsonReplacer from './util/json-replacer';
 import db from './util/db';
 import authRouter from './routes/auth';
 import apiRouter from './routes/api';
+import mainRouter from './routes/main';
 import initPassport from './passport';
 
+console.log(process.cwd());
 config();
 
 const { MONGO_URI, PORT = 8080 } = process.env;
@@ -48,6 +50,7 @@ app.set('json replacer', jsonReplacer);
 	// Routes
 	app.use('/auth', authRouter);
 	app.use('/api', apiRouter);
+	app.use(mainRouter);
 
 	app.listen(PORT, () => console.log(`App listening on port ${PORT}...`));
 })();

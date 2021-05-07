@@ -3,5 +3,11 @@
 	"version": "0.1.0",
 	"author": "José Grayson <josedanielgrayson@gmail.com>",
 	"license": "MIT",
-	"private": true
+	"private": true,
+	"scripts": {
+		"build:client": "yarn --cwd client build",
+		"build:server": "yarn --cwd server build",
+		"build": "yarn build:server && yarn build:client",
+		"start": "yarn --cwd server start"
+	}
 }
