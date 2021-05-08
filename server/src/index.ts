@@ -50,7 +50,10 @@ app.set('json replacer', jsonReplacer);
 	// Routes
 	app.use('/auth', authRouter);
 	app.use('/api', apiRouter);
-	app.use(mainRouter);
+	if (process.env.NODE_ENV === 'development') app.use(mainRouter);
+	app.use((req, res) =>
+		res.status(404).json({ status: 404, message: 'Not found' })
+	);
 
 	app.listen(PORT, () => console.log(`App listening on port ${PORT}...`));
 })();
