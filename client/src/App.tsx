@@ -12,6 +12,7 @@ const LoginPage = lazy(() => import('@pages/LoginPage'));
 const RegisterPage = lazy(() => import('@pages/RegisterPage'));
 const UserPage = lazy(() => import('@pages/UserPage'));
 const CreatePostPage = lazy(() => import('@pages/CreatePostPage'));
+const PostPage = lazy(() => import('@pages/PostPage'));
 
 const App: React.FC = () => {
 	const [loaded, setLoaded] = useState(false);
@@ -45,36 +46,32 @@ const App: React.FC = () => {
 			<Suspense fallback={null}>
 				{loaded && (
 					<Switch>
-						<Route exact path="/" render={() => <HomePage user={user} />} />
+						<Route exact path="/">
+							<HomePage user={user} />
+						</Route>
 
-						<Route
-							exact
-							path="/login"
-							render={() => <LoginPage user={user} />}
-						/>
-						<Route
-							exact
-							path="/register"
-							render={() => <RegisterPage user={user} />}
-						/>
+						<Route exact path="/login" children={<LoginPage user={user} />} />
+						<Route exact path="/register">
+							<RegisterPage user={user} />
+						</Route>
 
-						<Route
-							exact
-							path="/account"
-							render={() => <UserPage user={user} />}
-						/>
-						<Route
-							exact
-							path="/user/:id"
-							render={() => <UserPage user={user} />}
-						/>
-						<Route
-							exact
-							path="/post"
-							render={() => <CreatePostPage user={user} />}
-						/>
+						<Route exact path="/account">
+							<UserPage user={user} />
+						</Route>
+						<Route exact path="/user/:id">
+							<UserPage user={user} />
+						</Route>
 
-						<Route exact path="/*" component={NotFoundPage} />
+						<Route exact path="/post">
+							<CreatePostPage user={user} />
+						</Route>
+						<Route exact path="/post/:id">
+							<PostPage user={user} />
+						</Route>
+
+						<Route exact path="/*">
+							<NotFoundPage />
+						</Route>
 					</Switch>
 				)}
 			</Suspense>
