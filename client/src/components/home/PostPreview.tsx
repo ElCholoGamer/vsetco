@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router';
 import Post from '@structures/post';
 import '@scss/PostPreview.scss';
 
@@ -7,10 +7,16 @@ interface Props {
 }
 
 const PostPreview: React.FC<Props> = ({ post }) => {
+	const history = useHistory();
+	const votes = post.upvotes - post.downvotes;
+
 	return (
-		<Link className="post-preview" to={`/post/${post.id}`}>
+		<div
+			className="post-preview my-3 p-2"
+			onClick={() => history.push(`/post/${post.id}`)}>
+			<p className="m-0">{votes} votos</p>
 			<h3>{post.title}</h3>
-		</Link>
+		</div>
 	);
 };
 

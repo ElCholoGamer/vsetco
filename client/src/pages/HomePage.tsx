@@ -69,7 +69,7 @@ const HomePage: React.FC<Props> = ({ user }) => {
 							)}
 						</em>
 					) : (
-						posts.map(post => <PostPreview post={post} />)
+						posts.map(post => <PostPreview key={post.id} post={post} />)
 					)}
 				</>
 			)}
