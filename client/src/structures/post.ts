@@ -4,7 +4,8 @@ interface Post {
 	description: string;
 	author: string;
 	category?: string;
-	votes: number;
+	upvotes: number;
+	downvotes: number;
 	contacts: {
 		email?: string;
 		phone?: string;
