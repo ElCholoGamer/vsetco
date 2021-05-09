@@ -1,6 +1,4 @@
-# Vsetko
-
-![Logo](https://github.com/ElCholoGamer/vsetko/raw/master/client/src/assets/img/logo.svg)
+# Vsetko &middot; <img src="https://github.com/ElCholoGamer/vsetko/raw/master/client/src/assets/img/logo.svg" height="25" />
 
 Una app de anuncios para un proyecto escolar.<br/>
 ~<br/>
