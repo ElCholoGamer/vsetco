@@ -6,6 +6,7 @@ import axios from 'axios';
 import Layout from '@components/Layout';
 import Post from '@structures/post';
 import User from '@structures/user';
+import VoteSelector from '@components/post/VoteSelector';
 
 interface Props {
 	user: User | null;
@@ -55,6 +56,7 @@ const PostPage: React.FC<Props> = ({ user }) => {
 			) : (
 				<>
 					<h2>{post.title}</h2>
+					<VoteSelector user={user} post={post} setFailed={setFailed} />
 					<hr />
 
 					<div>

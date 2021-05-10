@@ -57,49 +57,68 @@ idRouter.get('/', (req, res) => res.json(req.post));
 
 idRouter.use(authenticate());
 
+idRouter.get('/votestatus', (req, res) => {
+	const user = req.user!.id;
+	const { upvotes, downvotes } = req.post;
+
+	const voteStatus = upvotes.includes(user)
+		? 1
+		: downvotes.includes(user)
+		? -1
+		: 0;
+
+	res.json({
+		status: 200,
+		voteStatus,
+	});
+});
+
 idRouter.post('/upvote', async (req, res) => {
 	const { post, user } = req;
-	let newValue: boolean;
+	let newStatus: number;
 
 	if (!post.upvotes.includes(user!.id)) {
 		// Add upvote
 		post.upvotes.push(user!.id);
-		newValue = true;
+		newStatus = 1;
 
 		// Remove possible downvote
 		post.downvotes = post.downvotes.filter(id => id !== user!.id);
 	} else {
 		// Remove upvote
-		post.upvotes.filter(id => id !== user!.id);
-		newValue = false;
+		post.upvotes = post.upvotes.filter(id => id !== user!.id);
+		newStatus = 0;
 	}
+
+	await post.save();
 
 	res.json({
 		status: 200,
-		newValue,
+		newStatus,
 	});
 });
 
 idRouter.post('/downvote', async (req, res) => {
 	const { post, user } = req;
-	let newValue: boolean;
+	let newStatus: number;
 
 	if (!post.downvotes.includes(user!.id)) {
 		// Add downvote
 		post.downvotes.push(user!.id);
-		newValue = true;
+		newStatus = -1;
 
 		// Remove possible upvote
 		post.upvotes = post.upvotes.filter(id => id !== user!.id);
 	} else {
 		// Remove downvote
-		post.downvotes.filter(id => id !== user!.id);
-		newValue = false;
+		post.downvotes = post.downvotes.filter(id => id !== user!.id);
+		newStatus = 0;
 	}
 
+	await post.save();
 	res.json({
 		status: 200,
-		newValue,
+		newStatus,
 	});
 });
 
@@ -112,6 +131,18 @@ idRouter.use((req, res, next) => {
 	}
 
 	next();
+});
+
+idRouter.put('/', async (req, res) => {
+	const { title, description, contacts } = req.body;
+
+	if (title) req.post.title = title;
+	if (description) req.post.description = description;
+	if (contacts && Object.keys(contacts).length > 0)
+		req.post.contacts = contacts;
+
+	await req.post.save();
+	res.json(req.post);
 });
 
 idRouter.delete('/', async (req, res) => {
