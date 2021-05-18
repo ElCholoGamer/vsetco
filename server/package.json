@@ -1,5 +1,5 @@
 {
-	"name": "vsetko-server",
+	"name": "vsetco-server",
 	"main": "dist/index.js",
 	"private": true,
 	"scripts": {

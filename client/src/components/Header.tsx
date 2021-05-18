@@ -24,7 +24,7 @@ const Header: React.FC<Props> = ({ user }) => {
 	return (
 		<Navbar expand="sm" bg="secondary">
 			<Navbar.Brand as={Link} to="/">
-				<img src={Logo} alt="Logo" height={35} /> Vsetko
+				<img src={Logo} alt="Logo" height={35} /> Vsětco
 			</Navbar.Brand>
 
 			<Navbar.Toggle aria-controls="navbar" />
