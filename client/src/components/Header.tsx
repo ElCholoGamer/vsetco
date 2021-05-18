@@ -1,4 +1,5 @@
 import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
@@ -26,10 +27,15 @@ const Header: React.FC<Props> = ({ user }) => {
 				<img src={Logo} alt="Logo" height={35} /> Vsetko
 			</Navbar.Brand>
 
-			<Navbar.Toggle />
-			<Navbar.Collapse className="justify-content-end">
+			<Navbar.Toggle aria-controls="navbar" />
+			<Navbar.Collapse id="navbar">
+				<Nav className="mr-auto">
+					<Nav.Link as={Link} to="/search">
+						Buscar
+					</Nav.Link>
+				</Nav>
 				{user ? (
-					<>
+					<div className="d-flex align-items-center">
 						<Button
 							className="post-btn d-flex align-items-center justify-content-middle mx-3"
 							variant="secondary"
@@ -51,13 +57,13 @@ const Header: React.FC<Props> = ({ user }) => {
 								}
 							/>
 						</Link>
-					</>
+					</div>
 				) : (
 					<ButtonGroup>
-						<Button as={Link} to="/login" variant="secondary">
-							Acceder
+						<Button as={Link} to="/login" variant="dark-orange">
+							Ingresar
 						</Button>
-						<Button as={Link} to="/register" variant="secondary">
+						<Button as={Link} to="/register" variant="dark-orange">
 							Registrarte
 						</Button>
 					</ButtonGroup>

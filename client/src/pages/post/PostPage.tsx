@@ -7,6 +7,7 @@ import Layout from '@components/Layout';
 import Post from '@structures/post';
 import User from '@structures/user';
 import VoteSelector from '@components/post/VoteSelector';
+import ErrorMessage from '@components/ErrorMessage';
 
 interface Props {
 	user: User | null;
@@ -47,10 +48,7 @@ const PostPage: React.FC<Props> = ({ user }) => {
 	return (
 		<Layout>
 			{failed ? (
-				<>
-					<h3>Ocurrió un error :(</h3>
-					<p>Intenta de nuevo más tarde</p>
-				</>
+				<ErrorMessage />
 			) : !post || !author ? (
 				<p>Cargando...</p>
 			) : (

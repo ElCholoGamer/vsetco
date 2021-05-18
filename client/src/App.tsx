@@ -11,8 +11,9 @@ const HomePage = lazy(() => import('@pages/HomePage'));
 const LoginPage = lazy(() => import('@pages/LoginPage'));
 const RegisterPage = lazy(() => import('@pages/RegisterPage'));
 const UserPage = lazy(() => import('@pages/UserPage'));
-const CreatePostPage = lazy(() => import('@pages/CreatePostPage'));
-const PostPage = lazy(() => import('@pages/PostPage'));
+const CreatePostPage = lazy(() => import('@pages/post/CreatePostPage'));
+const PostPage = lazy(() => import('@pages/post/PostPage'));
+const EditPostPage = lazy(() => import('@pages/post/EditPostPage'));
 
 const App: React.FC = () => {
 	const [loaded, setLoaded] = useState(false);
@@ -67,6 +68,9 @@ const App: React.FC = () => {
 						</Route>
 						<Route exact path="/post/:id">
 							<PostPage user={user} />
+						</Route>
+						<Route exact path="/post/:id/edit">
+							<EditPostPage user={user} />
 						</Route>
 
 						<Route exact path="/*">

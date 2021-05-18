@@ -7,6 +7,7 @@ import PostPreview from '@components/home/PostPreview';
 import Post from '@structures/post';
 import User from '@structures/user';
 import '@scss/HomePage.scss';
+import ErrorMessage from '@components/ErrorMessage';
 
 interface Props {
 	user: User | null;
@@ -33,10 +34,7 @@ const HomePage: React.FC<Props> = ({ user }) => {
 	return (
 		<Layout>
 			{failed ? (
-				<>
-					<h3>Ocurrió un error :(</h3>
-					<p>Intenta de nuevo más tarde</p>
-				</>
+				<ErrorMessage />
 			) : (
 				<>
 					{/* Sort selector */}
