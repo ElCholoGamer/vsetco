@@ -134,10 +134,11 @@ idRouter.use((req, res, next) => {
 });
 
 idRouter.put('/', async (req, res) => {
-	const { title, description, contacts } = req.body;
+	const { title, description, category, contacts } = req.body;
 
 	if (title) req.post.title = title;
 	if (description) req.post.description = description;
+	if (category) req.post.category = category;
 	if (contacts && Object.keys(contacts).length > 0)
 		req.post.contacts = contacts;
 
