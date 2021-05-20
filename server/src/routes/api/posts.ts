@@ -7,7 +7,7 @@ import validateEmail from '../../util/validate-email';
 const router = Router();
 
 router.get('/', async (req, res) => {
-	const { sort } = req.params;
+	const sort = req.query.sort?.toString() || '';
 	const sortFunc = sortFunctions[sort] || sortFunctions.hot;
 
 	const posts = await Post.find();
