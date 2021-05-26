@@ -1,29 +1,34 @@
-import { MutableRefObject, useState, useEffect } from 'react';
-import FormControl from 'react-bootstrap/FormControl';
+import { Dispatch, SetStateAction } from 'react';
 
 interface Props {
-	sortRef: MutableRefObject<string>;
+	sort: string;
+	setSort: Dispatch<SetStateAction<string>>;
 }
 
-const PostSorter: React.FC<Props> = ({ sortRef: ref }) => {
-	const [selected, setSelected] = useState(ref.current);
+const sortOptions: Record<string, string> = {
+	hot: 'Populares',
+	new: 'Nuevos',
+	top: 'Más votados',
+};
 
-	useEffect(() => {
-		ref.current = selected;
-	}, [ref, selected]);
-
+const PostSorter: React.FC<Props> = ({ sort, setSort }) => {
 	return (
 		<div className="d-flex align-items-center">
 			Ordernar por:
-			<FormControl
-				className="p-0 ml-2 sort-selector"
-				as="select"
-				value={selected}
-				onChange={e => setSelected(e.target.value)}>
-				<option value="hot">Populares</option>
-				<option value="new">Nuevos</option>
-				<option value="top">Más votados</option>
-			</FormControl>
+			<div className="d-flex align-items-center ">
+				{Object.keys(sortOptions).map(key => (
+					<option
+						className={
+							'sort-option my-0 mx-2 cursor-pointer' +
+							(key === sort ? ' font-weight-bold' : '')
+						}
+						key={key}
+						value={key}
+						onClick={e => setSort(e.currentTarget.value)}>
+						{sortOptions[key]}
+					</option>
+				))}
+			</div>
 		</div>
 	);
 };
