@@ -9,14 +9,16 @@ interface Props {
 	submit(input: PostInput): Promise<void>;
 }
 
+const defaultDefaultInput: PostInput = {
+	title: '',
+	description: '',
+	category: '',
+	contacts: {},
+};
+
 const PostForm: React.FC<Props> = ({
 	submit,
-	defaultInput = {
-		title: '',
-		description: '',
-		category: '',
-		contacts: {},
-	},
+	defaultInput = defaultDefaultInput,
 }) => {
 	const [input, setInput] = useState({
 		title: defaultInput.title,
