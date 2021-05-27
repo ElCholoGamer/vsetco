@@ -1,6 +1,8 @@
 import { Router } from 'express';
+import { title } from 'node:process';
 import authenticate from '../../../middleware/authenticate';
 import Post from '../../../models/post';
+import escapeRegex from '../../../util/escape-regex';
 import partialify from '../../../util/partialify';
 import sortFunctions from '../../../util/post-sorters';
 import validateEmail from '../../../util/validate-email';
@@ -8,11 +10,17 @@ import idRouter from './[id]';
 
 const router = Router();
 
+router.use('/:id', idRouter);
+
 router.get('/', async (req, res) => {
+	const search = req.query.search?.toString() || '';
 	const sort = req.query.sort?.toString() || '';
+
 	const sortFunc = sortFunctions[sort] || sortFunctions.hot;
 
-	const posts = await Post.find();
+	const posts = await Post.find({
+		title: { $regex: new RegExp(`^${escapeRegex(search)}`, 'i') },
+	});
 	posts.sort(sortFunc);
 
 	res.json(partialify(posts));
@@ -38,7 +46,5 @@ router.post('/', authenticate(), async (req, res) => {
 
 	res.json(post);
 });
-
-router.use('/:id', idRouter);
 
 export default router;
