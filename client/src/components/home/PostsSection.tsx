@@ -1,4 +1,11 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import React, {
+	useState,
+	useEffect,
+	Dispatch,
+	SetStateAction,
+	Fragment,
+	ComponentProps,
+} from 'react';
 import axios, { AxiosError } from 'axios';
 import Post from '@structures/post';
 import PostSorter from './PostSorter';
@@ -6,12 +13,12 @@ import User from '@structures/user';
 import { Link } from 'react-router-dom';
 import PostPreview from './PostPreview';
 
-interface Props {
+interface Props extends ComponentProps<'div'> {
 	user: User | null;
 	setFailed: Dispatch<SetStateAction<boolean>>;
 }
 
-const PostsSection: React.FC<Props> = ({ user, setFailed }) => {
+const PostsSection: React.FC<Props> = ({ user, setFailed, ...divProps }) => {
 	const [sort, setSort] = useState('hot');
 	const [posts, setPosts] = useState<Post[] | null>(null);
 
@@ -29,7 +36,7 @@ const PostsSection: React.FC<Props> = ({ user, setFailed }) => {
 	}, [sort, setFailed]);
 
 	return (
-		<div className="home-posts bg-porpl p-3 rounded">
+		<div className="home-posts bg-porpl p-3 m-2 rounded" {...divProps}>
 			<PostSorter sort={sort} setSort={setSort} />
 			<hr />
 
@@ -49,10 +56,10 @@ const PostsSection: React.FC<Props> = ({ user, setFailed }) => {
 				</em>
 			) : (
 				posts.map(post => (
-					<>
+					<Fragment key={post.id}>
 						<PostPreview key={post.id} post={post} />
 						<hr />
-					</>
+					</Fragment>
 				))
 			)}
 		</div>

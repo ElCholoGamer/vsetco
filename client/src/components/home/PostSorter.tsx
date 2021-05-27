@@ -13,9 +13,9 @@ const sortOptions: Record<string, string> = {
 
 const PostSorter: React.FC<Props> = ({ sort, setSort }) => {
 	return (
-		<div className="d-flex align-items-center">
-			Ordernar por:
-			<div className="d-flex align-items-center ">
+		<div className="d-flex align-items-center justifty-content-start flex-wrap">
+			<div className="my-1">Ordernar por:</div>
+			<div className="d-flex align-items-center my-1">
 				{Object.keys(sortOptions).map(key => (
 					<option
 						className={

@@ -5,3 +5,9 @@
 .sort-option {
 	cursor: pointer;
 }
+
+@media screen and (max-width: 670px) {
+	.home-users {
+		display: none;
+	}
+}
