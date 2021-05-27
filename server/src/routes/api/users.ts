@@ -17,7 +17,7 @@ router.get('/@popular', async (req, res) => {
 	for (const post of posts) {
 		if (users.length >= 10) break;
 
-		if (!users.some(user => user._id === post.author)) {
+		if (post.getVotes() > 10 && !users.some(user => user._id === post.author)) {
 			const userAuthor = await User.findById(post.author);
 			if (userAuthor) users.push(userAuthor);
 		}
