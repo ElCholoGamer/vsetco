@@ -13,5 +13,5 @@ An advertisements app for a school project.
 - [ ] Posts search bar
 - [ ] Individual post page (Kinda done)
 - [ ] Post edit route and page
-- [ ] (Maybe) Route to check if a user has upvoted/downvoted
+- [ ] ~~(Maybe) Route to check if a user has upvoted/downvoted~~ nope
 - [ ] Put actual effort into the CSS
