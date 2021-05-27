@@ -1,9 +1,9 @@
 import { useHistory } from 'react-router';
-import Post from '@structures/post';
+import { PartialPost } from '@structures/post';
 import '@scss/PostPreview.scss';
 
 interface Props {
-	post: Post;
+	post: PartialPost;
 }
 
 const PostPreview: React.FC<Props> = ({ post }) => {

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import authenticate from '../../middleware/authenticate';
 import Post from '../../models/post';
+import partialify from '../../util/partialify';
 import sortFunctions from '../../util/post-sorters';
 import validateEmail from '../../util/validate-email';
 
@@ -13,7 +14,7 @@ router.get('/', async (req, res) => {
 	const posts = await Post.find();
 	posts.sort(sortFunc);
 
-	res.json(posts);
+	res.json(partialify(posts));
 });
 
 router.post('/', authenticate(), async (req, res) => {

@@ -7,7 +7,7 @@ import React, {
 	ComponentProps,
 } from 'react';
 import axios, { AxiosError } from 'axios';
-import Post from '@structures/post';
+import { PartialPost } from '@structures/post';
 import PostSorter from './PostSorter';
 import User from '@structures/user';
 import { Link } from 'react-router-dom';
@@ -20,7 +20,7 @@ interface Props extends ComponentProps<'div'> {
 
 const PostsSection: React.FC<Props> = ({ user, setFailed, ...divProps }) => {
 	const [sort, setSort] = useState('hot');
-	const [posts, setPosts] = useState<Post[] | null>(null);
+	const [posts, setPosts] = useState<PartialPost[] | null>(null);
 
 	useEffect(() => {
 		setPosts(null);
