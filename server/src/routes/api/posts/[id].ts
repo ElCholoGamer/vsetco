@@ -1,46 +1,10 @@
 import { Router } from 'express';
-import authenticate from '../../middleware/authenticate';
-import Post from '../../models/post';
-import partialify from '../../util/partialify';
-import sortFunctions from '../../util/post-sorters';
-import validateEmail from '../../util/validate-email';
+import authenticate from '../../../middleware/authenticate';
+import Post from '../../../models/post';
 
-const router = Router();
+const router = Router({ mergeParams: true });
 
-router.get('/', async (req, res) => {
-	const sort = req.query.sort?.toString() || '';
-	const sortFunc = sortFunctions[sort] || sortFunctions.hot;
-
-	const posts = await Post.find();
-	posts.sort(sortFunc);
-
-	res.json(partialify(posts));
-});
-
-router.post('/', authenticate(), async (req, res) => {
-	const { title, description, contacts } = req.body;
-
-	if (contacts.email && !validateEmail(contacts.email)) {
-		return res.status(400).json({
-			status: 400,
-			message: 'El correo electrónico es inválido',
-		});
-	}
-
-	const post = new Post({
-		title,
-		author: req.user!._id,
-		description,
-		contacts,
-	});
-	await post.save();
-
-	res.json(post);
-});
-
-const idRouter = Router({ mergeParams: true });
-
-idRouter.use(async (req, res, next) => {
+router.use(async (req, res, next) => {
 	const post = await Post.findById(req.params.id);
 
 	if (!post) {
@@ -54,11 +18,11 @@ idRouter.use(async (req, res, next) => {
 	next();
 });
 
-idRouter.get('/', (req, res) => res.json(req.post));
+router.get('/', (req, res) => res.json(req.post));
 
-idRouter.use(authenticate());
+router.use(authenticate());
 
-idRouter.get('/votestatus', (req, res) => {
+router.get('/votestatus', (req, res) => {
 	const user = req.user!.id;
 	const { upvotes, downvotes } = req.post;
 
@@ -74,7 +38,7 @@ idRouter.get('/votestatus', (req, res) => {
 	});
 });
 
-idRouter.post('/upvote', async (req, res) => {
+router.post('/upvote', async (req, res) => {
 	const { post, user } = req;
 	let newStatus: number;
 
@@ -99,7 +63,7 @@ idRouter.post('/upvote', async (req, res) => {
 	});
 });
 
-idRouter.post('/downvote', async (req, res) => {
+router.post('/downvote', async (req, res) => {
 	const { post, user } = req;
 	let newStatus: number;
 
@@ -123,7 +87,7 @@ idRouter.post('/downvote', async (req, res) => {
 	});
 });
 
-idRouter.use((req, res, next) => {
+router.use((req, res, next) => {
 	if (req.post.author !== req.user!._id) {
 		return res.status(403).json({
 			status: 403,
@@ -134,7 +98,7 @@ idRouter.use((req, res, next) => {
 	next();
 });
 
-idRouter.put('/', async (req, res) => {
+router.put('/', async (req, res) => {
 	const { title, description, category, contacts } = req.body;
 
 	if (title) req.post.title = title;
@@ -147,14 +111,12 @@ idRouter.put('/', async (req, res) => {
 	res.json(req.post);
 });
 
-idRouter.delete('/', async (req, res) => {
+router.delete('/', async (req, res) => {
 	await req.post.delete();
 	res.json({
 		status: 200,
 		message: 'Post deleted successfully',
 	});
 });
-
-router.use('/:id', idRouter);
 
 export default router;
