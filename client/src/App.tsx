@@ -6,6 +6,7 @@ import User from '@structures/user';
 import NotFoundPage from '@pages/NotFound';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@scss/App.scss';
+import Footer from '@components/Footer';
 
 const HomePage = lazy(() => import('@pages/HomePage'));
 const LoginPage = lazy(() => import('@pages/LoginPage'));
@@ -42,44 +43,49 @@ const App: React.FC = () => {
 	}, [loaded]);
 
 	return (
-		<>
-			<Header user={user} />
-			<Suspense fallback={null}>
-				{loaded && (
-					<Switch>
-						<Route exact path="/">
-							<HomePage user={user} />
-						</Route>
+		<div
+			id="main-wrapper"
+			className="d-flex flex-column justify-content-between">
+			<div id="content-wrapper">
+				<Header user={user} />
+				<Suspense fallback={null}>
+					{loaded && (
+						<Switch>
+							<Route exact path="/">
+								<HomePage user={user} />
+							</Route>
 
-						<Route exact path="/login" children={<LoginPage user={user} />} />
-						<Route exact path="/register">
-							<RegisterPage user={user} />
-						</Route>
+							<Route exact path="/login" children={<LoginPage user={user} />} />
+							<Route exact path="/register">
+								<RegisterPage user={user} />
+							</Route>
 
-						<Route exact path="/account">
-							<UserPage user={user} />
-						</Route>
-						<Route exact path="/user/:id">
-							<UserPage user={user} />
-						</Route>
+							<Route exact path="/account">
+								<UserPage user={user} />
+							</Route>
+							<Route exact path="/user/:id">
+								<UserPage user={user} />
+							</Route>
 
-						<Route exact path="/post">
-							<CreatePostPage user={user} />
-						</Route>
-						<Route exact path="/post/:id">
-							<PostPage user={user} />
-						</Route>
-						<Route exact path="/post/:id/edit">
-							<EditPostPage user={user} />
-						</Route>
+							<Route exact path="/post">
+								<CreatePostPage user={user} />
+							</Route>
+							<Route exact path="/post/:id">
+								<PostPage user={user} />
+							</Route>
+							<Route exact path="/post/:id/edit">
+								<EditPostPage user={user} />
+							</Route>
 
-						<Route exact path="/*">
-							<NotFoundPage />
-						</Route>
-					</Switch>
-				)}
-			</Suspense>
-		</>
+							<Route exact path="/*">
+								<NotFoundPage />
+							</Route>
+						</Switch>
+					)}
+				</Suspense>
+			</div>
+			<Footer />
+		</div>
 	);
 };
 

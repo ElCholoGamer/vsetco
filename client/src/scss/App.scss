@@ -1,1 +1,11 @@
 @import './colors';
+
+html {
+	min-height: 100vh;
+}
+
+body,
+#root,
+#main-wrapper {
+	height: 100%;
+}
