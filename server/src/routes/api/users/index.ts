@@ -1,12 +1,11 @@
 import { Router } from 'express';
-import authenticate from '../../middleware/authenticate';
-import Post from '../../models/post';
-import User, { IUser } from '../../models/user';
-import sortFunctions from '../../util/post-sorters';
+import authenticate from '../../../middleware/authenticate';
+import Post from '../../../models/post';
+import User, { IUser } from '../../../models/user';
+import sortFunctions from '../../../util/post-sorters';
+import idRouter from './[id]';
 
 const router = Router();
-
-router.get('/@me', authenticate(), (req, res) => res.json(req.user));
 
 router.get('/@popular', async (req, res) => {
 	const posts = await Post.find();
@@ -26,17 +25,8 @@ router.get('/@popular', async (req, res) => {
 	res.json(users);
 });
 
-router.get('/:id', async (req, res) => {
-	const user = await User.findById(req.params.id);
+router.use('/@me', authenticate());
 
-	if (!user) {
-		return res.status(404).json({
-			status: 404,
-			message: 'User not found',
-		});
-	}
-
-	res.json(user);
-});
+router.use('/:id', idRouter);
 
 export default router;
