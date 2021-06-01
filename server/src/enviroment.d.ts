@@ -1,5 +1,6 @@
 import { IUser } from './models/user';
 import { IPost } from './models/post';
+import ImageManager from './util/image-manager';
 
 declare global {
 	namespace Express {
@@ -11,6 +12,10 @@ declare global {
 			wss: WSServer;
 
 			post: IPost;
+		}
+
+		interface Application {
+			images: ImageManager;
 		}
 	}
 }

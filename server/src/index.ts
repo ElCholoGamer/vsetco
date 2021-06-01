@@ -11,6 +11,7 @@ import authRouter from './routes/auth';
 import apiRouter from './routes/api';
 import mainRouter from './routes/main';
 import initPassport from './passport';
+import ImageManager from './util/image-manager';
 
 console.log(process.cwd());
 config();
@@ -24,6 +25,9 @@ initPassport();
 // Options
 app.enable('trust proxy');
 app.set('json replacer', jsonReplacer);
+
+app.images = new ImageManager();
+app.images.init();
 
 (async () => {
 	await db(MONGO_URI);
