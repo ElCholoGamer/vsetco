@@ -4,6 +4,8 @@ Una app de anuncios para un proyecto escolar.<br/>
 ~<br/>
 An advertisements app for a school project.
 
+<small>this is taking longer than expected</small>
+
 ## Todo:
 
 - [x] Homepage posts (Kinda done)
