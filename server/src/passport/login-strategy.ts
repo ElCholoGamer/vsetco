@@ -12,12 +12,15 @@ const loginStrategy = new LocalStrategy(
 
 		const user = await User.findOne({ username });
 		if (!user) {
-			return done(null, false, { message: 'User not found', status: 404 });
+			return done(null, false, {
+				message: 'Usuario no encontrado',
+				status: 404,
+			});
 		}
 
 		const match = await compare(password, user.password);
 		if (!match) {
-			return done(null, false, { message: 'Invalid password', status: 401 });
+			return done(null, false, { message: 'Contraseña inválida', status: 401 });
 		}
 
 		done(null, user);
