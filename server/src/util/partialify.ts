@@ -7,6 +7,12 @@ function partialify(posts: IPost[]) {
 		delete json.contacts;
 		delete json.description;
 
+		if (json.images.length > 0) {
+			json.thumbnail = json.images[0];
+		}
+
+		delete json.images;
+
 		return json;
 	});
 
