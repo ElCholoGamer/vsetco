@@ -21,12 +21,12 @@ class ImageManager {
 		});
 	}
 
-	public async uploadPostImage(file: string): Promise<string> {
+	public async uploadPostImage(postId: string, file: string): Promise<string> {
 		const uploadResponse = await cloudinary.uploader.upload(file, {
-			folder: 'post_images',
+			folder: `post_images/${postId}`,
 		});
 
-		return uploadResponse.public_id.split('/')[1];
+		return uploadResponse.public_id.split('/').slice(-1)[0];
 	}
 
 	public async uploadProfilePicture(
@@ -47,12 +47,18 @@ class ImageManager {
 		return res.public_id.split('/')[1];
 	}
 
-	public getPostImage(id: string) {
-		return cloudinary.url(this.folders.POST_IMAGES + '/' + id);
+	public getPostImage(postId: string, imageId: string) {
+		return cloudinary.url(
+			this.folders.POST_IMAGES + '/' + postId + '/' + imageId
+		);
 	}
 
 	public getProfilePicture(id: string) {
 		return cloudinary.url(this.folders.PROFILE_PICTURES + '/' + id);
+	}
+
+	public async pwnImage(id: string) {
+		await cloudinary.uploader.destroy(id);
 	}
 }
 

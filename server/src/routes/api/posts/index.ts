@@ -9,9 +9,7 @@ import sortFunctions from '../../../util/post-sorters';
 import validateEmail from '../../../util/validate-email';
 import idRouter from './[id]';
 
-const TEMP_IMAGES = 'temp/posts/';
-
-const upload = multer({ dest: TEMP_IMAGES });
+const upload = multer({ dest: 'temp/posts/' });
 
 const router = Router();
 
@@ -27,11 +25,6 @@ router.get('/', async (req, res) => {
 	posts.sort(sortFunc);
 
 	res.json(partialify(posts));
-});
-
-router.get('/@image/:id', (req, res) => {
-	const url = req.app.images.getPostImage(req.params.id);
-	res.redirect(url);
 });
 
 router.post(
@@ -59,30 +52,32 @@ router.post(
 			});
 		}
 
-		const imageIds: string[] = [];
 		const fileList = Array.isArray(files) ? files : Object.values(files)[0];
-
-		for (const file of fileList) {
-			if (file.size > 10 ** 7) {
-				return res.status(400).json({
-					status: 400,
-					message: 'Una de las imágenes pesa más de 10MB',
-				});
-			}
-
-			const url = await req.app.images.uploadPostImage(file.path);
-			await unlink(file.path);
-
-			imageIds.push(url);
+		if (fileList.some(file => file.size > 10 ** 7)) {
+			return res.status(400).json({
+				status: 400,
+				message: 'Una de las imágenes pesa más de 10MB',
+			});
 		}
 
 		const post = new Post({
 			title,
 			author: req.user!._id,
 			description,
-			images: imageIds,
 			contacts,
 		});
+		await post.save();
+
+		const imageIds: string[] = [];
+
+		for (const file of fileList) {
+			const url = await req.app.images.uploadPostImage(post._id, file.path);
+			await unlink(file.path);
+
+			imageIds.push(url);
+		}
+
+		post.images = imageIds;
 		await post.save();
 
 		res.json(post);
