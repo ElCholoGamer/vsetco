@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 import Header from '@components/Header';
@@ -7,6 +7,7 @@ import NotFoundPage from '@pages/NotFound';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@scss/App.scss';
 import Footer from '@components/Footer';
+import SearchPage from '@pages/SearchPage';
 
 const HomePage = lazy(() => import('@pages/HomePage'));
 const LoginPage = lazy(() => import('@pages/LoginPage'));
@@ -58,6 +59,10 @@ const App: React.FC = () => {
 							<Route exact path="/login" children={<LoginPage user={user} />} />
 							<Route exact path="/register">
 								<RegisterPage user={user} />
+							</Route>
+
+							<Route exact path="/search">
+								<SearchPage />
 							</Route>
 
 							<Route exact path="/account">
