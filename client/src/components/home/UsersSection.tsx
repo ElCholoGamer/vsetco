@@ -33,14 +33,16 @@ const UsersSection: React.FC<Props> = ({
 	}, [setFailed, self]);
 
 	return (
-		<div className="home-users p-3 m-2 bg-porpl rounded" {...divProps}>
+		<div
+			className="home-users p-3 m-2 bg-porpl rounded align-self-baseline"
+			{...divProps}>
 			<h4>Usuarios populares</h4>
 			<hr />
 
 			{!users ? (
 				<p>Cargando...</p>
 			) : !users.length ? (
-				<small>Parece que no hay nada aquí</small>
+				<small>Parece que no hay nada por aquí.</small>
 			) : (
 				<ul>
 					{users.map(user => (

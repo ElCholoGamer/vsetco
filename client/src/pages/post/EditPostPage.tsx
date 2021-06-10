@@ -20,6 +20,7 @@ const EditPostPage: React.FC<Props> = ({ user }) => {
 
 	const [failed, setFailed] = useState(false);
 	const [post, setPost] = useState<Post | null>(null);
+	const [imageFiles, setImageFiles] = useState<File[] | null>(null);
 	const [alert, setAlert] = useState<string | null>(null);
 
 	useEffect(() => {
@@ -27,17 +28,45 @@ const EditPostPage: React.FC<Props> = ({ user }) => {
 
 		axios
 			.get(`/api/posts/${id}`)
-			.then(res => setPost(res.data))
+			.then(res => {
+				setPost(res.data);
+			})
 			.catch(err => {
 				console.error(err);
 				setFailed(true);
 			});
 	}, [id, user]);
 
+	useEffect(() => {
+		if (!post) return;
+
+		(async () => {
+			const newImageFiles: File[] = [];
+			for (const imageId of post.images) {
+				try {
+					const res = await axios.get(
+						`/api/images/posts/${post.id}/${imageId}`,
+						{
+							responseType: 'arraybuffer',
+						}
+					);
+					const blob = new Blob([new Uint8Array(res.data)]);
+
+					newImageFiles.push(new File([blob], imageId));
+				} catch (err) {
+					console.error(err);
+					setFailed(true);
+				}
+			}
+
+			setImageFiles(newImageFiles);
+		})();
+	}, [post]);
+
 	const submit = async (input: PostInput) => {
 		if (!post) return;
 
-		const { title, description, category, contacts } = input;
+		const { title, description, category, contacts, images } = input;
 		const validContacts: Record<string, string> = {};
 
 		for (const contactName in contacts) {
@@ -50,16 +79,20 @@ const EditPostPage: React.FC<Props> = ({ user }) => {
 			return setAlert('Debes introducir al menos un contacto');
 		}
 
+		const data = new FormData();
+		data.append('title', title);
+		data.append('description', description);
+		data.append('category', category || '');
+		data.append('contacts', JSON.stringify(validContacts));
+
+		for (const image of images) {
+			data.append('images', image);
+		}
+
 		setAlert('');
 
 		try {
-			const res = await axios.put(`/api/posts/${post.id}`, {
-				title,
-				description,
-				category: category || undefined,
-				contacts: validContacts,
-			});
-
+			const res = await axios.put(`/api/posts/${post.id}`, data);
 			history.push(`/post/${res.data.id}`);
 		} catch (unknownErr: unknown) {
 			const err = unknownErr as AxiosError;
@@ -82,8 +115,8 @@ const EditPostPage: React.FC<Props> = ({ user }) => {
 
 	return (
 		<Layout>
-			{post &&
-				(failed ? (
+			{post && imageFiles ? (
+				failed ? (
 					<ErrorMessage />
 				) : (
 					<>
@@ -96,6 +129,7 @@ const EditPostPage: React.FC<Props> = ({ user }) => {
 								description: post.description,
 								category: post.category,
 								contacts: post.contacts,
+								images: imageFiles,
 							}}
 							submit={submit}
 						/>
@@ -105,7 +139,12 @@ const EditPostPage: React.FC<Props> = ({ user }) => {
 							</Alert>
 						)}
 					</>
-				))}
+				)
+			) : (
+				<>
+					<h3>Cargando...</h3>
+				</>
+			)}
 		</Layout>
 	);
 };

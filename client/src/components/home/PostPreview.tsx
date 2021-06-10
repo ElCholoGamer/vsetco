@@ -18,6 +18,15 @@ const PostPreview: React.FC<Props> = ({ post }) => {
 				{votes} voto{Math.abs(votes) !== 1 && 's'}
 			</p>
 			<h3>{post.title}</h3>
+
+			{post.thumbnail && (
+				<img
+					className="my-3 rounded shadow mw-100"
+					src={`/api/images/posts/${post.id}/${post.thumbnail}`}
+					alt=""
+					style={{ maxHeight: 400 }}
+				/>
+			)}
 		</div>
 	);
 };

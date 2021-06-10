@@ -16,7 +16,7 @@ const CreatePostPage: React.FC<Props> = ({ user }) => {
 	const [alert, setAlert] = useState<string | null>(null);
 
 	const handleSubmit = async (input: PostInput) => {
-		const { title, description, category, contacts } = input;
+		const { title, description, category, contacts, images } = input;
 		const validContacts: Record<string, string> = {};
 
 		for (const contactName in contacts) {
@@ -31,14 +31,18 @@ const CreatePostPage: React.FC<Props> = ({ user }) => {
 
 		setAlert('');
 
-		try {
-			const res = await axios.post('/api/posts', {
-				title,
-				description,
-				category: category || undefined,
-				contacts: validContacts,
-			});
+		const data = new FormData();
+		data.append('title', title);
+		data.append('description', description);
+		if (category) data.append('category', category);
+		data.append('contacts', JSON.stringify(validContacts));
 
+		for (const image of images) {
+			data.append('images', image);
+		}
+
+		try {
+			const res = await axios.post('/api/posts', data);
 			history.push(`/post/${res.data.id}`);
 		} catch (unknownErr: unknown) {
 			const err = unknownErr as AxiosError;
@@ -64,6 +68,7 @@ const CreatePostPage: React.FC<Props> = ({ user }) => {
 					title: '',
 					description: '',
 					category: '',
+					images: [],
 					contacts: {
 						email: user?.email || '',
 						phone: user?.contacts.phone || '',

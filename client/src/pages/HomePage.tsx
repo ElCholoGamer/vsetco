@@ -22,12 +22,12 @@ const HomePage: React.FC<Props> = ({ user }) => {
 					<PostsSection
 						user={user}
 						setFailed={setFailed}
-						style={{ flexGrow: 4 }}
+						style={{ flexGrow: 4, flexShrink: 15 }}
 					/>
 					<UsersSection
 						user={user}
 						setFailed={setFailed}
-						style={{ flexGrow: 1 }}
+						style={{ flexGrow: 1, flexBasis: '500px', flexShrink: 13 }}
 					/>
 				</div>
 			)}

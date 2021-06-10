@@ -3,6 +3,7 @@ export interface PartialPost {
 	title: string;
 	author: string;
 	category?: string;
+	thumbnail?: string;
 	upvotes: number;
 	downvotes: number;
 	createdAt: string;
@@ -11,6 +12,7 @@ export interface PartialPost {
 
 interface Post extends PartialPost {
 	description: string;
+	images: string[];
 	contacts: {
 		email?: string;
 		phone?: string;

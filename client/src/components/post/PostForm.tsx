@@ -3,6 +3,8 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { PostInput } from 'src/utils';
 import categories from '@structures/categories';
+import ImageSelector from './ImageSelector';
+import '@scss/PostForm.scss';
 
 interface Props {
 	defaultInput?: PostInput;
@@ -13,6 +15,7 @@ const defaultDefaultInput: PostInput = {
 	title: '',
 	description: '',
 	category: '',
+	images: [],
 	contacts: {},
 };
 
@@ -25,6 +28,7 @@ const PostForm: React.FC<Props> = ({
 		description: defaultInput.description,
 		category: defaultInput.category,
 	});
+	const [images, setImages] = useState(defaultInput.images);
 	const [contacts, setContacts] = useState(defaultInput.contacts);
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +63,14 @@ const PostForm: React.FC<Props> = ({
 		const btn = e.currentTarget;
 		btn.disabled = true;
 
-		submit({ ...input, contacts: { ...contacts } }).finally(() => {
+		const data = new FormData();
+		for (const key in input) {
+			data.append(key, input[key as keyof typeof input] || '');
+		}
+
+		data.set('contacts', JSON.stringify(contacts));
+
+		submit({ ...input, contacts: { ...contacts }, images }).finally(() => {
 			btn.disabled = false;
 		});
 	};
@@ -75,6 +86,8 @@ const PostForm: React.FC<Props> = ({
 				/>
 			</Form.Group>
 
+			<ImageSelector images={images} setImages={setImages} maxImages={10} />
+
 			<Form.Group>
 				<Form.Label>Descripción del anuncio</Form.Label>
 				<Form.Control
@@ -89,7 +102,7 @@ const PostForm: React.FC<Props> = ({
 				<Form.Control as="select" {...inputProps('category')}>
 					<option value="">(Sin categoría)</option>
 					{categories.map(category => (
-						<option>{category.name}</option>
+						<option key={category.name}>{category.name}</option>
 					))}
 				</Form.Control>
 			</Form.Group>
