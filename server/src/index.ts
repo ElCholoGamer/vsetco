@@ -12,6 +12,7 @@ import apiRouter from './routes/api';
 import mainRouter from './routes/main';
 import initPassport from './passport';
 import ImageManager from './util/image-manager';
+import responseProxyImage from './middleware/response-proxy-image';
 
 console.log(process.cwd());
 config();
@@ -50,11 +51,18 @@ app.images.init();
 	);
 	app.use(passport.initialize());
 	app.use(passport.session());
-
+	app.use(responseProxyImage());
+	
 	// Routes
+	app.get('/test', (req, res) => {
+		res.proxyImage(req.query.url?.toString() || '');
+	})
 	app.use('/auth', authRouter);
 	app.use('/api', apiRouter);
-	if (process.env.NODE_ENV === 'development') app.use(mainRouter);
+	if (process.env.NODE_ENV !== 'development') {
+		app.use(mainRouter);
+	}
+
 	app.use((req, res) =>
 		res.status(404).json({ status: 404, message: 'Not found' })
 	);

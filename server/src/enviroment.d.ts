@@ -10,12 +10,16 @@ declare global {
 			channel: IChannel;
 			message: IMessage;
 			wss: WSServer;
-
+			
 			post: IPost;
 		}
 
 		interface Application {
 			images: ImageManager;
+		}
+
+		interface Response {
+			proxyImage(url: string): void;
 		}
 	}
 }
