@@ -40,13 +40,14 @@ const Header: React.FC<Props> = ({ user }) => {
 							className="post-btn d-flex align-items-center justify-content-middle mx-3"
 							variant="secondary"
 							as={Link}
-							to="/post">
+							to="/post"
+						>
 							<img height="20" src={CreatePostIcon} alt="Create Post" />
 						</Button>
 						<Link to={`/account`} className="header-profile">
 							{user.username}
 							<LazyImage
-								src="/api/users/@me/picture"
+								src={`/api/images/user/${user.id}`}
 								{...profilePicProps}
 								fallback={
 									<img

@@ -2,12 +2,14 @@ $primary: #f9f1bf;
 $secondary: #f2b65b;
 $dark-orange: #cc7e29;
 $porpl: #d8b6df;
+$gray: #4b4b4b;
 
 $theme-colors: (
 	'primary': $primary,
 	'secondary': $secondary,
 	'dark-orange': $dark-orange,
 	'porpl': $porpl,
+	'gray': $gray,
 );
 
 $body-bg: $primary;

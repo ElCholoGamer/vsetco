@@ -7,6 +7,7 @@ import {
 	useState,
 } from 'react';
 import Button from 'react-bootstrap/Button';
+import CrossIcon from '@assets/img/cross_icon.svg';
 
 interface Props {
 	setImages: Dispatch<SetStateAction<File[]>>;
@@ -44,10 +45,10 @@ const ImageSelector: React.FC<Props> = ({ setImages, images, maxImages }) => {
 	};
 
 	const onImageAdded = (e: ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0];
-		if (!file) return;
+		const { files } = e.target;
+		if (!files?.length) return;
 
-		setImages(prev => [...prev, file]);
+		setImages(prev => [...prev, ...files]);
 	};
 
 	const deleteImage = (index: number) => {
@@ -63,30 +64,39 @@ const ImageSelector: React.FC<Props> = ({ setImages, images, maxImages }) => {
 
 	return (
 		<div className="w-100">
-			<div className="overflow-auto">
-				{sources?.map((src, index) => (
-					<span key={src} className="position-relative d-inline-block">
-						<img src={src} alt="" height="200" />
-						<Button
-							variant="dark"
-							className="btn-delete-image rounded-circle text-light border-0 position-absolute"
-							onClick={() => deleteImage(index)}>
-							X
-						</Button>
-					</span>
-				))}
-			</div>
+			<div className="bg-secondary rounded p-3">
+				{sources && sources.length > 0 ? (
+					<div className="d-flex overflow-auto">
+						{sources.map((src, index) => (
+							<div key={src} className="position-relative d-inline-blockm mx-2">
+								<img src={src} alt="" height="200" className="rounded shadow" />
+								<img
+									src={CrossIcon}
+									alt="Quitar"
+									width="25"
+									className="btn-delete-image rounded-circle position-absolute"
+									onClick={() => deleteImage(index)}
+								/>
+							</div>
+						))}
+					</div>
+				) : (
+					<div className="text-gray">¡Inserta una imagen o dos!</div>
+				)}
 
-			<input
-				onChange={onImageAdded}
-				type="file"
-				accept="image/*"
-				ref={inputRef}
-				className="d-none"
-			/>
-			<Button variant="porpl" className="mt-3" onClick={addImage}>
-				+
-			</Button>
+				<hr />
+				<input
+					onChange={onImageAdded}
+					type="file"
+					accept="image/png, image/jpeg"
+					multiple
+					ref={inputRef}
+					className="d-none"
+				/>
+				<Button variant="porpl" onClick={addImage}>
+					Añadir imagen
+				</Button>
+			</div>
 
 			<hr />
 		</div>
