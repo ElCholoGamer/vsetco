@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import Post from '@structures/post';
 import User from '@structures/user';
-import ArrowIcon from './ArrowIcon';
+import ArrowIcon from '../svg/ArrowIcon';
 import '@scss/VoteSelector.scss';
 
 interface Props {
