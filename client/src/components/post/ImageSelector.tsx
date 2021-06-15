@@ -52,14 +52,14 @@ const ImageSelector: React.FC<Props> = ({ setImages, images, maxImages }) => {
 	};
 
 	const deleteImage = (index: number) => {
-		const f: SetStateAction<any[]> = prev => {
-			const out = [...(prev || [])];
+		const removeIndex: SetStateAction<any[]> = prev => {
+			const out = [...prev];
 			out.splice(index, 1);
 			return out;
 		};
 
-		setImages(f);
-		setSources(prev => f(prev || []));
+		setImages(removeIndex);
+		setSources(prev => removeIndex(prev || []));
 	};
 
 	return (
