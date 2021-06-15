@@ -1,15 +1,15 @@
-import { Router } from "express";
+import { Router } from 'express';
 
 const router = Router();
 
-router.get("/posts/:postId/:imageId", (req, res) => {
-  const { postId, imageId } = req.params;
-  const url = req.app.images.getPostImage(postId, imageId);
-  res.proxyImage(url);
+router.get('/posts/:postId/:imageId', (req, res) => {
+	const { postId, imageId } = req.params;
+	const url = req.app.images.getPostImage(postId, imageId);
+	res.proxyImage(url);
 });
 
-router.get("/user/:id", (req, res) => {
-  res.proxyImage(`/api/users/${req.params.id}/picture`);
+router.get('/user/:id', (req, res) => {
+	res.redirect(`/api/users/${req.params.id}/picture`);
 });
 
 export default router;

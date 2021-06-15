@@ -30,8 +30,7 @@ router.get('/picture', (req, res) => {
 		id === '@me' ? req.user!.id : id
 	);
 
-	console.log(url);
-	res.redirect(url);
+	res.proxyImage(url);
 });
 
 router.post('/picture', upload.single('image'), async (req, res) => {
