@@ -6,6 +6,17 @@
 	cursor: pointer;
 }
 
+.popular-user {
+	cursor: pointer;
+	color: black;
+
+	&:hover {
+		filter: brightness(94%);
+		text-decoration: none;
+		color: inherit;
+	}
+}
+
 @media screen and (max-width: 700px) {
 	.home-users {
 		display: none;

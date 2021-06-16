@@ -27,7 +27,7 @@ const HomePage: React.FC<Props> = ({ user }) => {
 					<UsersSection
 						user={user}
 						setFailed={setFailed}
-						style={{ flexGrow: 1, flexBasis: '500px', flexShrink: 13 }}
+						style={{ flexGrow: 1, flexBasis: '300px', flexShrink: 13 }}
 					/>
 				</div>
 			)}
