@@ -1,4 +1,5 @@
 import Carousel from 'react-bootstrap/Carousel';
+import Spinner from 'react-bootstrap/Spinner';
 import Post from '@structures/post';
 import LazyImage from '@components/LazyImage';
 
@@ -20,7 +21,11 @@ const ImageCarousel: React.FC<Props> = ({ post }) => {
 						<LazyImage
 							className="post-carousel-image"
 							src={`/api/images/post/${post.id}/${id}`}
-							fallback={<>test</>}
+							fallback={
+								<Spinner variant="light" animation="border" role="status">
+									<span className="sr-only">Loading...</span>
+								</Spinner>
+							}
 						/>
 					</div>
 				</Carousel.Item>
