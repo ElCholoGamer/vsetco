@@ -19,7 +19,7 @@ const ImageCarousel: React.FC<Props> = ({ post }) => {
 					<div className="post-carousel-image-wrapper d-flex align-items-center justify-content-center">
 						<LazyImage
 							className="post-carousel-image"
-							src={`/api/images/posts/${post.id}/${id}`}
+							src={`/api/images/post/${post.id}/${id}`}
 							fallback={<>test</>}
 						/>
 					</div>

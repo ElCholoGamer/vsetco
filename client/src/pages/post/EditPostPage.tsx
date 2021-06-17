@@ -45,7 +45,7 @@ const EditPostPage: React.FC<Props> = ({ user }) => {
 			for (const imageId of post.images) {
 				try {
 					const res = await axios.get(
-						`/api/images/posts/${post.id}/${imageId}`,
+						`/api/images/post/${post.id}/${imageId}`,
 						{
 							responseType: 'arraybuffer',
 						}

@@ -13,7 +13,8 @@ const PostPreview: React.FC<Props> = ({ post }) => {
 	return (
 		<div
 			className="post-preview my-3 p-2"
-			onClick={() => history.push(`/post/${post.id}`)}>
+			onClick={() => history.push(`/post/${post.id}`)}
+		>
 			<p className="m-0">
 				{votes} voto{Math.abs(votes) !== 1 && 's'}
 			</p>
@@ -22,7 +23,7 @@ const PostPreview: React.FC<Props> = ({ post }) => {
 			{post.thumbnail && (
 				<img
 					className="my-3 rounded shadow mw-100"
-					src={`/api/images/posts/${post.id}/${post.thumbnail}`}
+					src={`/api/images/post/${post.id}/${post.thumbnail}`}
 					alt=""
 					style={{ maxHeight: 400 }}
 				/>

@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 const router = Router();
 
-router.get('/posts/:postId/:imageId', (req, res) => {
+router.get('/post/:postId/:imageId', (req, res) => {
 	const { postId, imageId } = req.params;
 	const url = req.app.images.getPostImage(postId, imageId);
 	res.proxyImage(url);
