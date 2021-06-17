@@ -8,6 +8,8 @@ import Post from '@structures/post';
 import User from '@structures/user';
 import VoteSelector from '@components/post/VoteSelector';
 import ErrorMessage from '@components/ErrorMessage';
+import ImageCarousel from '@components/post/ImageCarousel';
+import '@scss/PostPage.scss';
 
 interface Props {
 	user: User | null;
@@ -56,6 +58,8 @@ const PostPage: React.FC<Props> = ({ user }) => {
 					<h2>{post.title}</h2>
 					<VoteSelector user={user} post={post} setFailed={setFailed} />
 					<hr />
+
+					{post.images.length && <ImageCarousel post={post} />}
 
 					<div>
 						<ReactMarkdown remarkPlugins={[gfm]}>
