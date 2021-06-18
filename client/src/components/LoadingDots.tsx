@@ -12,7 +12,7 @@ const LoadingDots: React.FC<Props> = ({ delay = 500 }) => {
 		return () => clearTimeout(timer);
 	}, [time, delay]);
 
-	return <>{'.'.repeat(time % 4)}</>;
+	return <>{'.'.repeat((time % 3) + 1)}</>;
 };
 
 export default LoadingDots;
