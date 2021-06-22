@@ -93,7 +93,11 @@ const ImageSelector: React.FC<Props> = ({ setImages, images, maxImages }) => {
 				>
 					Añadir imágenes
 				</Button>
-				<span className="ml-2">Límite de imágenes alcanzado ({maxImages})</span>
+				{images.length >= maxImages && (
+					<span className="ml-2">
+						Límite de imágenes alcanzado ({maxImages})
+					</span>
+				)}
 			</div>
 
 			<hr />
