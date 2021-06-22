@@ -7,11 +7,11 @@ import {
 	useState,
 } from 'react';
 import Button from 'react-bootstrap/Button';
-import CrossIcon from '@assets/img/cross_icon.svg';
+import ImageSelectorItem from './ImageSelectorItem';
 
 interface Props {
-	setImages: Dispatch<SetStateAction<File[]>>;
-	images: File[];
+	setImages: Dispatch<SetStateAction<[number, File][]>>;
+	images: [number, File][];
 	maxImages: number;
 }
 
@@ -32,23 +32,18 @@ const ImageSelector: React.FC<Props> = ({ setImages, images, maxImages }) => {
 				});
 			};
 
-			reader.readAsDataURL(images[i]);
+			reader.readAsDataURL(images[i][1]);
 		}
 	}, [images]);
-
-	const addImage = () => {
-		if (images.length >= maxImages) {
-			return alert(`El límite de imágenes por anuncio es ${maxImages}.`);
-		}
-
-		inputRef.current?.click();
-	};
 
 	const onImageAdded = (e: ChangeEvent<HTMLInputElement>) => {
 		const { files } = e.target;
 		if (!files?.length) return;
 
-		setImages(prev => [...prev, ...files]);
+		const now = Date.now();
+		const out = Array.from(files).map<[number, File]>(file => [now, file]);
+
+		setImages(prev => [...prev, ...out].slice(0, 10));
 	};
 
 	const deleteImage = (index: number) => {
@@ -68,16 +63,14 @@ const ImageSelector: React.FC<Props> = ({ setImages, images, maxImages }) => {
 				{sources && sources.length > 0 ? (
 					<div className="d-flex overflow-auto">
 						{sources.map((src, index) => (
-							<div key={src} className="position-relative d-inline-blockm mx-2">
-								<img src={src} alt="" height="200" className="rounded shadow" />
-								<img
-									src={CrossIcon}
-									alt="Quitar"
-									width="25"
-									className="btn-delete-image rounded-circle position-absolute"
-									onClick={() => deleteImage(index)}
-								/>
-							</div>
+							<ImageSelectorItem
+								key={`${index}:${src}`}
+								index={index}
+								src={src}
+								deleteImage={deleteImage}
+								images={images}
+								setImages={setImages}
+							/>
 						))}
 					</div>
 				) : (
@@ -93,9 +86,14 @@ const ImageSelector: React.FC<Props> = ({ setImages, images, maxImages }) => {
 					ref={inputRef}
 					className="d-none"
 				/>
-				<Button variant="porpl" onClick={addImage}>
-					Añadir imagen
+				<Button
+					disabled={images.length >= maxImages}
+					variant="porpl"
+					onClick={() => inputRef.current?.click()}
+				>
+					Añadir imágenes
 				</Button>
+				<span className="ml-2">Límite de imágenes alcanzado ({maxImages})</span>
 			</div>
 
 			<hr />

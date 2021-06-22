@@ -28,7 +28,9 @@ const PostForm: React.FC<Props> = ({
 		description: defaultInput.description,
 		category: defaultInput.category,
 	});
-	const [images, setImages] = useState(defaultInput.images);
+	const [images, setImages] = useState<[number, File][]>(
+		defaultInput.images.map((img, index) => [index, img])
+	);
 	const [contacts, setContacts] = useState(defaultInput.contacts);
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -70,7 +72,11 @@ const PostForm: React.FC<Props> = ({
 
 		data.set('contacts', JSON.stringify(contacts));
 
-		submit({ ...input, contacts: { ...contacts }, images }).finally(() => {
+		submit({
+			...input,
+			contacts: { ...contacts },
+			images: images.map(([, img]) => img),
+		}).finally(() => {
 			btn.disabled = false;
 		});
 	};
@@ -107,9 +113,11 @@ const PostForm: React.FC<Props> = ({
 				</Form.Control>
 			</Form.Group>
 
+			<hr />
+
 			<Form.Group>
 				<Form.Label>
-					<strong>Contactos</strong>
+					<h3>Contactos</h3>
 				</Form.Label>
 
 				<Form.Group>
@@ -131,7 +139,8 @@ const PostForm: React.FC<Props> = ({
 			<Button
 				variant="secondary"
 				disabled={!input.title || !input.description}
-				onClick={handleSubmit}>
+				onClick={handleSubmit}
+			>
 				Publicar
 			</Button>
 		</Form>

@@ -4,3 +4,19 @@
 	box-shadow: 0 0 5px;
 	cursor: pointer;
 }
+
+*[class^='btn-move-image-'] {
+	cursor: pointer;
+	top: 50%;
+	z-index: 5;
+}
+
+.btn-move-image-right {
+	right: 10px;
+	transform: scaleX(-1) translateY(-50%);
+}
+
+.btn-move-image-left {
+	transform: translateY(-50%);
+	left: 10px;
+}

@@ -1,3 +1,4 @@
+import { ReactEventHandler } from 'react';
 import { useState, ComponentProps } from 'react';
 
 interface Props extends ComponentProps<'img'> {
@@ -6,6 +7,11 @@ interface Props extends ComponentProps<'img'> {
 
 const LazyImage: React.FC<Props> = ({ fallback, alt, style, ...props }) => {
 	const [loaded, setLoaded] = useState(false);
+
+	const handleLoad: ReactEventHandler<HTMLImageElement> = e => {
+		setLoaded(true);
+		props.onLoad?.(e);
+	};
 
 	return (
 		<>
@@ -17,7 +23,7 @@ const LazyImage: React.FC<Props> = ({ fallback, alt, style, ...props }) => {
 					...style,
 					display: !loaded ? 'none' : style?.display,
 				}}
-				onLoad={() => setLoaded(true)}
+				onLoad={handleLoad}
 			/>
 		</>
 	);
